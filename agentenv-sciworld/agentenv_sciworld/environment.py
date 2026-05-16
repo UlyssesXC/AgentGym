@@ -19,7 +19,11 @@ class SciWorldEnv:
                     {"taskName": value, "variationIdx": i}
                     for i in range(init_env.getMaxVariations(value))
                 ]
-        init_env.close()
+        # `close` was added in scienceworld 1.2.x; for compatibility with the
+        # 1.1.x line (which AgentTraj-L was generated against) we fall back to
+        # just dropping the reference.
+        if hasattr(init_env, "close"):
+            init_env.close()
         del init_env
 
     def create(self):
@@ -143,10 +147,12 @@ class SciWorldEnv:
         # ScienceWorld grammar accepts at the current state. Each item is a
         # ready-to-execute action string (e.g. "open door to kitchen").
         # Use this for paper-§B.6 IWM random alternative sampling.
+        # camelCase API name is used for compatibility with scienceworld 1.1.x
+        # (snake_case version was only added in 1.2.x).
         try:
             self._check_id(idx)
             return {
-                "admissible_actions": self.env[idx].get_valid_action_object_combinations()
+                "admissible_actions": self.env[idx].getValidActionObjectCombinations()
             }
         except Exception as e:
             return {"error": str(e)}

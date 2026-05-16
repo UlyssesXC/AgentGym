@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "agentenv_sciworld"
-version = "0.0.2"
+version = "0.0.3"
 description = ""
 authors = [
     {name = "zsxmwjz", email = "13816862266@163.com"},
@@ -12,7 +12,13 @@ authors = [
 dependencies = [
     "fastapi",
     "uvicorn",
-    "scienceworld"
+    # Pin scienceworld to the version that was current when AgentTraj-L was
+    # released (2024-06-06). 1.1.3 (2023-01-19) is the last stable before the
+    # 1.2.x line, whose first release (1.2.0) came 12 days *after* AgentTraj-L.
+    # With 1.2.x the task-judging logic for several tasks (notably the
+    # conductivity family) changed enough that AgentTraj-L's gold paths fail
+    # ~32% of the time.
+    "scienceworld==1.1.3"
 ]
 requires-python = "~=3.8"
 readme = "README.md"
