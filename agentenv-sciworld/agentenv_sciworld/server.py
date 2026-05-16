@@ -53,6 +53,11 @@ def get_action_hint(id: int):
     return server.get_action_hint(id)
 
 
+@app.get("/admissible_actions")
+def get_admissible_actions(id: int):
+    return server.get_admissible_actions(id)
+
+
 @app.get("/goals")
 def get_goals(id: int):
     return server.get_goals(id)

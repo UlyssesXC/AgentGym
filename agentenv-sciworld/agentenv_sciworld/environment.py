@@ -138,6 +138,19 @@ class SciWorldEnv:
         except Exception as e:
             return {"error": str(e)}
 
+    def get_admissible_actions(self, idx: int):
+        # Flat list of all (template, object[, object]) combinations the
+        # ScienceWorld grammar accepts at the current state. Each item is a
+        # ready-to-execute action string (e.g. "open door to kitchen").
+        # Use this for paper-§B.6 IWM random alternative sampling.
+        try:
+            self._check_id(idx)
+            return {
+                "admissible_actions": self.env[idx].get_valid_action_object_combinations()
+            }
+        except Exception as e:
+            return {"error": str(e)}
+
     def get_goals(self, idx: int):
         try:
             self._check_id(idx)
